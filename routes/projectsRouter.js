@@ -13,7 +13,7 @@ route.get("/", async (req, res) => {
     const projectList = await projectModel.get();
     res.json(projectList);
   } catch (err) {
-    generalErr();
+    generalErr(err, res);
   }
 });
 
@@ -23,10 +23,6 @@ route.post("/add", async (req, res) => {
     const result = await projectModel.insert(newProject);
     if (result) {
       res.status(201).json({ message: `Project has been created!` });
-    } else {
-      res
-        .status(400)
-        .json({ message: `Please include both name and description` });
     }
   } catch (err) {
     generalErr(err, res);
