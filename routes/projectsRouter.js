@@ -21,13 +21,32 @@ route.get("/", async (req, res) => {
 });
 route.get("/:id/actions", async (req, res) => {
   const { id } = req.params;
-  const actionlist = await projectModel.getProjectActions(id);
-  if (actionlist) {
-    res.json({ actionlist });
-  } else {
-    res.status(404).json({
-      message: "Project not found"
-    });
+  try {
+    const actionlist = await projectModel.getProjectActions(id);
+    if (actionlist.length > 0) {
+      res.json({ actionlist });
+    } else {
+      res.status(404).json({
+        message: "Project not found"
+      });
+    }
+  } catch (err) {
+    generalErr(err, res);
+  }
+});
+route.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const project = await projectModel.get(id);
+    if (project) {
+      res.json({ project });
+    } else {
+      res.status(404).json({
+        message: "Project not found"
+      });
+    }
+  } catch (err) {
+    generalErr(err, res);
   }
 });
 
