@@ -22,7 +22,6 @@ route.get("/", async (req, res) => {
 
 route.post("/add", checkAction, async (req, res) => {
   const action = req.body;
-  console.log("router", action);
   try {
     const result = await actionModel.insert(action);
     if (result) {
