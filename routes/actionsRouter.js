@@ -32,7 +32,7 @@ route.post("/add", checkAction, async (req, res) => {
   }
 });
 
-route.put("/:id", async (req, res) => {
+route.put("/:id", checkAction, async (req, res) => {
   const { id } = req.params;
   const change = req.body;
   try {
