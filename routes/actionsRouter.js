@@ -2,6 +2,9 @@ const express = require("express");
 const route = express.Router();
 
 const actionModel = require("../data/helpers/actionModel");
+//middleware
+const checkAction = require("../common/checkAction");
+
 function generalErr(err, res) {
   res
     .status(500)
@@ -17,8 +20,9 @@ route.get("/", async (req, res) => {
   }
 });
 
-route.post("/add", async (req, res) => {
+route.post("/add", checkAction, async (req, res) => {
   const action = req.body;
+  console.log("router", action);
   try {
     const result = await actionModel.insert(action);
     if (result) {
@@ -36,7 +40,9 @@ route.put("/:id", async (req, res) => {
     const action = await actionModel.get(id);
     if (action) {
       const result = await actionModel.update(id, change);
-      res.json({ message: `Action has been updated` });
+      res.json({
+        message: `Action has been updated and has an id of ${result.id}`
+      });
     } else {
       res.status(404).json({ message: "Action not found!" });
     }

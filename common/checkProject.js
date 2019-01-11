@@ -3,9 +3,11 @@ module.exports = (req, res, next) => {
   const { name, description } = project;
 
   if (
+    name.length > 0 &&
     typeof name === "string" &&
     name.length <= 128 &&
-    typeof description === "string"
+    typeof description === "string" &&
+    description.length > 0
   ) {
     next();
   } else {

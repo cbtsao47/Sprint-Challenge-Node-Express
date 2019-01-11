@@ -19,6 +19,17 @@ route.get("/", async (req, res) => {
     generalErr(err, res);
   }
 });
+route.get("/:id/actions", async (req, res) => {
+  const { id } = req.params;
+  const actionlist = await projectModel.getProjectActions(id);
+  if (actionlist) {
+    res.json({ actionlist });
+  } else {
+    res.status(404).json({
+      message: "Project not found"
+    });
+  }
+});
 
 route.post("/add", checkProject, async (req, res) => {
   const newProject = req.body;
