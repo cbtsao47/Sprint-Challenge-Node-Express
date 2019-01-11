@@ -3,11 +3,14 @@ const route = express.Router();
 
 const projectModel = require("../data/helpers/projectModel");
 
+// middleware
+const checkProject = require("../common/checkProject");
 function generalErr(err, res) {
   res
     .status(500)
     .json({ message: "There is something wrong is the database." });
 }
+
 route.get("/", async (req, res) => {
   try {
     const projectList = await projectModel.get();
@@ -17,7 +20,7 @@ route.get("/", async (req, res) => {
   }
 });
 
-route.post("/add", async (req, res) => {
+route.post("/add", checkProject, async (req, res) => {
   const newProject = req.body;
   try {
     const result = await projectModel.insert(newProject);
@@ -28,7 +31,7 @@ route.post("/add", async (req, res) => {
     generalErr(err, res);
   }
 });
-route.put("/:id", async (req, res) => {
+route.put("/:id", checkProject, async (req, res) => {
   const { id } = req.params;
   const change = req.body;
   try {

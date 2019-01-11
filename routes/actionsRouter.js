@@ -2,7 +2,6 @@ const express = require("express");
 const route = express.Router();
 
 const actionModel = require("../data/helpers/actionModel");
-
 function generalErr(err, res) {
   res
     .status(500)
