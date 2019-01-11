@@ -2,9 +2,10 @@ const projectModel = require("../data/helpers/projectModel");
 module.exports = async (req, res, next) => {
   const { project_id, description, notes } = req.body;
   const project = await projectModel.get(project_id);
-  console.log(project);
   if (
     project &&
+    description &&
+    notes &&
     description.length > 0 &&
     typeof description === "string" &&
     typeof notes === "string"
